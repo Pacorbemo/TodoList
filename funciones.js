@@ -1,4 +1,7 @@
-function pintarCantidad(arr, contador) {
+const tasks = document.getElementById("tasks");
+const contador = document.getElementById("contador");
+
+function pintarCantidad(arr) {
     let no_tasks = document.getElementById("no-tasks");
     if (Object.keys(arr).length == 0) {
         no_tasks.style = "";
@@ -8,7 +11,7 @@ function pintarCantidad(arr, contador) {
     contador.innerHTML = Object.keys(arr).length;
 }
 
-function agregarFila(arr, task, pos, tasks) {
+function agregarFila(arr, task, pos) {
     const nuevoLi = document.createElement("li");
     const nuevoP = document.createElement("p");
     const botonBorrar = document.createElement("button");
@@ -17,7 +20,7 @@ function agregarFila(arr, task, pos, tasks) {
     botonBorrar.classList.add("btn-delete");
     botonBorrar.addEventListener("click", () => {
         arr.splice(pos, 1);
-        actualizar(arr, tasks, pos, contador);
+        actualizar(arr, pos);
     });
     nuevoP.textContent = task;
     nuevoLi.appendChild(nuevoP);
@@ -25,13 +28,13 @@ function agregarFila(arr, task, pos, tasks) {
     tasks.appendChild(nuevoLi);
 }
 
-function agregarTodo(arr, tasks, pos) {
+function agregarTodo(arr, pos) {
     while (tasks.childElementCount > 0) {
         tasks.removeChild(tasks.lastChild);
     }
     pos = 0;
     arr.forEach((task) => {
-        agregarFila(arr, task, pos, tasks);
+        agregarFila(arr, task, pos);
         pos++;
     });
 }
@@ -40,8 +43,8 @@ function subirInfo(arr) {
     localStorage.setItem("arr", JSON.stringify(arr));
 }
 
-export function actualizar(arr, tasks, pos, contador) {
-    pintarCantidad(arr, contador);
-    agregarTodo(arr, tasks, pos);
+export function actualizar(arr,pos) {
+    pintarCantidad(arr);
+    agregarTodo(arr, pos);
     subirInfo(arr);
 }
